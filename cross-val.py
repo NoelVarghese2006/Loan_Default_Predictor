@@ -15,6 +15,8 @@ loan_data = pd.read_csv("credit_risk_dataset.csv")
 
 X, y = loan_data.drop('loan_status', axis=1), loan_data[['loan_status']]
 
+print(y.value_counts())
+
 # Extract text features
 cats = X.select_dtypes(exclude=np.number).columns.tolist()
 
@@ -34,13 +36,13 @@ params = {'objective': 'binary:logistic', 'tree_method': 'hist'}
 n=1000
 evals = [(train_set, "train"), (test_set, "validation")]
 
-print(np.unique(y))
+#print(np.unique(y))
 
-# results = xgb.cv(
-#    params, train_set,
-#    num_boost_round=n,
-#    nfold=5,
-#    metrics=["mlogloss", "auc", "merror"],
-# )
+results = xgb.cv(
+   params, train_set,
+   num_boost_round=n,
+   nfold=5,
+   metrics=["logloss", "auc", "error"],
+)
 
-# print(results['test-auc-mean'].max())
+print(results['test-auc-mean'].max())
