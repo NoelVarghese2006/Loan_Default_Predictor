@@ -43,3 +43,5 @@ model = xbg.train (
     early_stopping_rounds = 50
 )
 
+model.save_model("xgb_model.bin")
+
